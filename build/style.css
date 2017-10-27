@@ -1,8 +1,6 @@
 img {
-    border: 10px solid black;
-}
+  border: 20px solid black; }
 
 h1 {
-    font: bold;
-    font-size: 100px;
-}
+  font: bold;
+  font-size: 10px; }

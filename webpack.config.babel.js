@@ -1,14 +1,13 @@
-import path from 'path';
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = {
     entry: ["webpack-hot-middleware/client", "./src/index.js"],
     output: {
         path: path.resolve (__dirname, 'build'),
-        filename: 'bundle.js',
-        publicPath: '/'
+        filename: 'bundle.js'
     },
     module: {
         rules: [
@@ -17,16 +16,26 @@ const config = {
                 exclude: /(node_modules)/,
                 test: /\.js$/ 
             },
+            // {
+            //     use: ['css-hot-loader'].concat(ExtractTextPlugin.extract ({
+            //         fallback: 'style-loader',
+            //         use: 'css-loader'
+            //     })),
+            //     test: /\.css$/
+            // },
             {
-                use: ExtractTextPlugin.extract ({
-                    use: 'css-loader'
-                }),
-                test: /\.css$/
+                use: ['css-hot-loader'].concat(ExtractTextPlugin.extract ({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                })),
+                test: /\.scss$/
             }
         ]
     },
     plugins: [
-        new ExtractTextPlugin ('style.css'),
+        new ExtractTextPlugin({
+            filename: "style.css"
+        }),
         new HtmlWebpackPlugin({
             template: './index.html'
         }),

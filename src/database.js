@@ -13,11 +13,19 @@ sequelize
     console.log('Unable to connect to the database:', err);
     });
 
-const User = sequelize.define('user', {
-    firstName: {
+export const User = sequelize.define('user', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    username: {
         type: Sequelize.STRING
     },
-    lastName: {
+    password: {
+        type: Sequelize.STRING
+    },
+    email: {
         type: Sequelize.STRING
     }
 });
@@ -27,8 +35,9 @@ User.sync({force: true}).then(() => {
     console.log('User Created Successfully');
     // Table created
     return User.create({
-      firstName: 'John',
-      lastName: 'Hancock'
+        username: 'Ibrahim Zahoor',
+        password: 'QBatch123',
+        email: 'ibrahim.zahoor@gmail.com'
     });
 });
 
@@ -37,4 +46,20 @@ User.sync({force: true}).then(() => {
     User.findAll().then(users => {
         console.log(users)
     });
+});
+
+sequelize.sync().then(function() {
+    User.create({
+        username: "Bilal Shah",
+        password: "QBatch123",
+        email: "bilal.shah@gmail.com"
+    });
+
+    User.create({
+        username: "abc",
+        password: "123",
+        email: "abc.123@gmail.com"
+    });
+}).catch(function(e) {
+    console.log("ERROR SYNCING WITH DB", e);
 });

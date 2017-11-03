@@ -19,6 +19,12 @@ export const User = sequelize.define('user', {
         primaryKey: true,
         autoIncrement: true
     },
+    name: {
+        type: Sequelize.STRING
+    },
+    age: {
+        type: Sequelize.INTEGER
+    },
     username: {
         type: Sequelize.STRING
     },
@@ -35,7 +41,9 @@ User.sync({force: true}).then(() => {
     console.log('User Created Successfully');
     // Table created
     return User.create({
-        username: 'Ibrahim Zahoor',
+        name: 'Ibrahim Zahoor',
+        age: 24,
+        username: 'Ibi@Zahoor',
         password: 'QBatch123',
         email: 'ibrahim.zahoor@gmail.com'
     });
@@ -50,16 +58,28 @@ User.sync({force: true}).then(() => {
 
 sequelize.sync().then(function() {
     User.create({
-        username: "Bilal Shah",
+        name: 'Syed M Bilal',
+        age: 23,
+        username: "Bilal@Shah",
         password: "QBatch123",
         email: "bilal.shah@gmail.com"
-    });
-
-    User.create({
-        username: "abc",
-        password: "123",
-        email: "abc.123@gmail.com"
     });
 }).catch(function(e) {
     console.log("ERROR SYNCING WITH DB", e);
 });
+
+
+    // .put(function(req, res) {
+    //   Customer.findById(req.params.customer_id).then(function(customer) {
+    //     customer.update(_.pick(req.body, ['name', 'address', 'phone'])).then(function(customer) {
+    //       res.json(customer);
+    //     });
+    //   });
+    // })
+    // .delete(function(req, res) {
+    //   Customer.findById(req.params.customer_id).then(function(customer) {
+    //     customer.destroy().then(function(customer) {
+    //       res.json(customer);
+    //     });
+    //   });
+    // });

@@ -7,7 +7,8 @@ const config = {
     entry: ["webpack-hot-middleware/client", "./src/index.js"],
     output: {
         path: path.resolve (__dirname, 'build'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/'
     },
     module: {
         rules: [
@@ -32,6 +33,11 @@ const config = {
             }
         ]
     },
+    // devServer: {
+    //     historyApiFallback: true,
+    //     contentBase: './',
+    //     hot: true
+    // },
     plugins: [
         new ExtractTextPlugin({
             filename: "style.css"

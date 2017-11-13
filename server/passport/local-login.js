@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
-import {User} from '../../../database.js';
-import {Strategy as PassportLocalStrategy} from 'passport-local';
-import config from '../../../../webpack.config.babel';
+import { Strategy as PassportLocalStrategy } from 'passport-local';
+import bcrypt from 'bcrypt';
+
+import { User } from '../models/database';
+import config from '../../config/index.json';
 
 /**
  * Return the Passport Local Strategy object.
@@ -18,9 +20,9 @@ module.exports = new PassportLocalStrategy({
   };
 
   // find a user by email address
-  return User.findOne({ email: userData.email }, (err, user) => {
-    if (err) { return done(err); }
-
+  return User.findOne({
+    where: { email: userData.email }
+  }).then((user) => {
     if (!user) {
       const error = new Error('Incorrect email or password');
       error.name = 'IncorrectCredentialsError';
@@ -28,10 +30,7 @@ module.exports = new PassportLocalStrategy({
       return done(error);
     }
 
-    // check if a hashed user's password is equal to a value saved in the database
-    return user.comparePassword(userData.password, (passwordErr, isMatch) => {
-      if (err) { return done(err); }
-
+    return bcrypt.compare(password, user.password, (passwordErr, isMatch) => {
       if (!isMatch) {
         const error = new Error('Incorrect email or password');
         error.name = 'IncorrectCredentialsError';
@@ -40,16 +39,16 @@ module.exports = new PassportLocalStrategy({
       }
 
       const payload = {
-        sub: user._id
+        sub: user.id
       };
 
       // create a token string
       const token = jwt.sign(payload, config.jwtSecret);
       const data = {
-        name: user.name
+        id: user.id
       };
 
       return done(null, token, data);
     });
-  });
+  }).catch(err => done(err));
 });

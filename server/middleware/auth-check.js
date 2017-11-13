@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import {User} from '../../../database.js';
-import config from '../../../../webpack.config.babel';
+import { User } from '../../server/models/database';
+import config from '../../config/index.json';
 
 /**
  *  The Auth Checker middleware function.
@@ -17,16 +17,15 @@ module.exports = (req, res, next) => {
   return jwt.verify(token, config.jwtSecret, (err, decoded) => {
     // the 401 code is for unauthorized status
     if (err) { return res.status(401).end(); }
-
     const userId = decoded.sub;
 
     // check if a user exists
-    return User.findById(userId, (userErr, user) => {
-      if (userErr || !user) {
+    return User.findById(userId).then((user) => {
+      if (!user) {
         return res.status(401).end();
       }
 
       return next();
-    });
+    }).catch(() => res.status(401).end());
   });
 };

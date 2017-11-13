@@ -5,7 +5,7 @@ import Profile from "./components/Profile"
 import NotFound from "./components/NotFound"
 
 const routes = [
-  { 
+  {
     component: AppRoot,
     routes: [
       { path: '/',

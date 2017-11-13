@@ -13,7 +13,7 @@ export default class SignUp extends React.Component {
     super();
 
     this.state = {
-      name: 'ABC',
+      name: 'ABCD',
       age: '21',
       username: 'ABC-XYZ',
       email: 'abc.xyz@gmail.com',
@@ -65,7 +65,7 @@ export default class SignUp extends React.Component {
     return (
     <div>
       <h1>
-        Sign Up
+        Sign UpPP
       </h1>
       <div>
         <input value={this.state.name} onChange={this.nameValueChanged.bind(this)}/>

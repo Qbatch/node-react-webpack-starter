@@ -96,7 +96,7 @@ export default class SignIn extends React.Component {
         <h3>{this.state.validation.passwordError}</h3>
       </div>
       <div>
-        {/* <button onClick={this.loginClicked.bind(this)}>Login</button> */}
+        {<button onClick={this.loginClicked.bind(this)}>Login</button>}
       </div>
     </div>
     );

@@ -38,19 +38,28 @@ const apiRoutes = require('./server/routes/api');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 
+
 // Tell express to use the webpack-dev-middleware and use the webpack.config.js
 // configuration file as a base.
 
 app.use(webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath,
-  hot: true,
   historyApiFallback: true,
-  proxy: {
-    '*': 'http://localhost:3000/'
-  }
+  // proxy: {
+  //   '*': 'http://localhost:3000/'
+  // }
+  contentBase: 'http://localhost:3000/',
+  quiet: true,
+  noInfo: true,
+  hot: true,
+  inline: true,
+  lazy: false,
+  publicPath: config.output.publicPath,
+  headers: { 'Access-Control-Allow-Origin': '*' },
+  stats: { colors: true }
 }));
 
 app.use(webpackHotMiddleware(compiler));
+
 
 app.get('*', (req, res, next) => {
   const filename = path.join(DIST_DIR, 'index.html');
@@ -66,7 +75,7 @@ app.get('*', (req, res, next) => {
   });
 });
 
-// // Serve the files on port 3000.
+// Serve the files on port 3000.
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!\n');
 });

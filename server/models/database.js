@@ -35,10 +35,71 @@ export const User = sequelize.define('user', {
     },
     email: {
         type: Sequelize.STRING
+    },
+    role: {
+        type: Sequelize.STRING
     }
 });
 
-export function createUser(name, age, username, password, email, cb) {
+export const Product = sequelize.define('product', {
+  id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+  },
+  name: {
+      type: Sequelize.STRING
+  },
+  color: {
+      type: Sequelize.INTEGER
+  },
+  size: {
+      type: Sequelize.STRING
+  },
+  description: {
+      type: Sequelize.STRING
+  },
+  price: {
+      type: Sequelize.STRING
+  },
+  sellerId: {
+    type: Sequelize.INTEGER
+  }
+});
+
+export const Order = sequelize.define('order', {
+  id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+  },
+  userId: {
+      type: Sequelize.INTEGER
+  },
+  status: {
+      type: Sequelize.STRING
+  },
+  totalPrice: {
+      type: Sequelize.FLOAT
+  }
+});
+
+export const OrderItems = sequelize.define('order_items', {
+  orderId: {
+      type: Sequelize.INTEGER
+  },
+  productId: {
+      type: Sequelize.INTEGER
+  },
+  price: {
+      type: Sequelize.STRING
+  },
+  quantity: {
+      type: Sequelize.STRING
+  }
+});
+
+export function createUser(name, age, username, password, email, role, cb) {
   bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {
       if (cb) cb(err);
@@ -49,29 +110,55 @@ export function createUser(name, age, username, password, email, cb) {
       age,
       username,
       password: hash,
-      email
+      email,
+      role
     });
 
     if (cb) cb(null);
   });
 }
 
+export function createProduct(name, color, size, description, price, sellerId, cb) {
+  // Store hash in your password DB.
+  Product.create({
+    name,
+    color,
+    size,
+    description,
+    price,
+    sellerId
+  });
+
+  if (cb) cb(null);
+}
+
 // force: true will drop the table if it already exists
 User.sync({ force: true }).then(() => {
   console.log('User Created Successfully');
-  // Table created
-  createUser('Ibrahim Zahoor', 24, 'Ibi@Zahoor', 'QBatch123', 'ibrahim.zahoor@gmail.com');
+
+  // createUser('ABC Seller2', 23, 'ShahG', '12345678', 'abcs2.xyz@gmail.com', 'Seller');
+  // createUser('ABC Seller1', 24, 'Ibi@Zahoor', '12345678', 'abcs1.xyz@gmail.com', 'Seller');
+  createUser('ABC Buyer1', 23, 'ShahG', '12345678', 'abcb1.xyz@gmail.com', 'Buyer');
+
+  createProduct('ABC DEF', 'RED', '10', 'Dummy Description', '100', 2);
+  createProduct('ABC GHI', 'GREEN', '20', 'Dummy Description', '200', 2);
+  createProduct('ABC JKL', 'BLUE', '30', 'Dummy Description', '300', 2);
+  createProduct('ABC MNO', 'ORANGE', '40', 'Dummy Description', '400', 2);
+  createProduct('ABC PQR', 'BLACK', '50', 'Dummy Description', '500', 2);
 });
 
 // force: true will drop the table if it already exists
 User.sync({ force: true }).then(() => {
-  User.findAll().then((users) => {
-    console.log(users);
-  });
+  // User.findAll().then((users) => {
+  //   console.log(users);
+  // });
 });
 
-sequelize.sync().then(() => {
-  createUser('Syed M Bilal', 23, 'ShahG', 'QBatch123', 'bilal.shah@gmail.com');
-}).catch((e) => {
-  console.log('ERROR SYNCING WITH DB', e);
+Product.sync({ force: true }).then(() => {
+});
+
+Order.sync({ force: true }).then(() => {
+});
+
+OrderItems.sync({ force: true }).then(() => {
 });

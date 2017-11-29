@@ -1,11 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Dropdown from 'react-dropdown';
 
 import { signUp } from '../actions/userActions';
 
+const options = [
+  'Select an option', 'Seller', 'Buyer'
+]
+const defaultOption = options[1];
+
 @connect((store) => {
   return {
-    users: store.user.users,
+    users: store.users.users,
   };
 })
 export default class SignUp extends React.Component {
@@ -17,7 +23,8 @@ export default class SignUp extends React.Component {
       age: '21',
       username: 'ABC-XYZ',
       email: 'abc.xyz@gmail.com',
-      password: '12345678'
+      password: '12345678',
+      role: 'Seller'
     };
   }
 
@@ -46,26 +53,30 @@ export default class SignUp extends React.Component {
     this.setState({ password });
   }
 
+  OnSelect = (e) => {
+    const role = e.value;
+    this.setState ({role: role});
+  }
+
   signUpClicked() {
-    this.props.dispatch(signUp(this.state.name, this.state.age, this.state.username, this.state.email, this.state.password))
+    this.props.dispatch(signUp(this.state.name, this.state.age, this.state.username, this.state.email, this.state.password, this.state.role))
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {users} = nextProps;
     
-    setTimeout(()=>{
-      console.log ('Props = ', this.props);
-      const {users} = this.props;
-      console.log ('Users = ', users);
-      const success = users.success;
-
-      console.log('Success = ', success);
-
-      if (success) this.props.history.push('/login');
-    }, 2000)
+    if(users) {
+      if(users.success) {
+        this.props.history.push('/login');
+      }
+    }
   }
 
   render() {
     return (
     <div>
       <h1>
-        Sign UpPP
+        Sign Up
       </h1>
       <div>
         <input value={this.state.name} onChange={this.nameValueChanged.bind(this)}/>
@@ -81,6 +92,9 @@ export default class SignUp extends React.Component {
       </div>
       <div>
         <input value={this.state.password} onChange={this.passwordValueChanged.bind(this)}/>
+      </div>
+      <div>
+        Role: <Dropdown options={options} onChange={this.OnSelect} value={defaultOption} placeholder="Select an option" />
       </div>
       <div>
         <button onClick={this.signUpClicked.bind(this)}>SignUp</button>

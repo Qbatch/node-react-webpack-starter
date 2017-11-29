@@ -1,0 +1,21 @@
+img {
+  border: 20px solid black; }
+
+h1 {
+  font: bold;
+  font-size: 50px; }
+
+h2 {
+  font: bold;
+  font-size: 20px;
+  color: black; }
+
+h3 {
+  font: bold;
+  font-size: 15px;
+  color: red; }
+
+h4 {
+  font: bold;
+  font-size: 15px;
+  color: green; }

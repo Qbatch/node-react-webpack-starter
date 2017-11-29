@@ -1,16 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import '../styles/image_viewer.scss';
-import Layout from './components/Layout';
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
-import Profile from './components/Profile';
-import LogOut from './components/LogOut';
-import NotFound from './components/NotFound';
-import store from './store';
+import App from './App.jsx';
+import '../styles/style.scss';
 
 if (module.hot) {
   module.hot.accept();
@@ -18,21 +10,7 @@ if (module.hot) {
 
 const app = document.getElementById('app');
 
-ReactDOM.render(<Provider store={store}>
-  <BrowserRouter>
-    <div>
-      <Switch>
-        <Route exact path="/" component={Layout} />
-        <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/login" component={SignIn} />
-        <Route exact path="/profile/:id" component={Profile} />
-        <Route exact path="/sessionexpired" component={Profile} />
-        <Route exact path="/logout/" component={LogOut} />
-        <Route path="*" component={NotFound} />
-      </Switch>
-    </div>
-  </BrowserRouter>
-</Provider>, app);
+ReactDOM.render(<App />, app);
 
 // import { renderRoutes } from 'react-router-config';
 // import createBrowserHistory from 'history/createBrowserHistory'

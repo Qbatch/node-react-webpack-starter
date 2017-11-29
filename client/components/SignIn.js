@@ -7,22 +7,46 @@ import Auth from '../modules/Auth';
 
 @connect((store) => {
   return {
-    users: store.user.users,
+    users: store.users.users,
   };
 })
 export default class SignIn extends React.Component {
+  
   constructor() {
     super();
 
     this.state = {
-      email: "bilal.shah@gmail.com",
-      password: "QBatch123",
+      email: "abc.xyz@gmail.com",
+      password: "12345678",
       validation: {
         emailError: '',
         passwordError: '',
         success: true
       }
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // invoked every time component is recieves new props.
+    // does not before initial 'render'
+
+    // console.log('nextProps = ', nextProps);
+    const {users} = nextProps;
+    
+    if(users) {
+      if(users.token) {
+        Auth.authenticateUser(users.token);
+      }
+
+      if (Auth.isUserAuthenticated) {
+        // console.log('User is Authenticated!');
+        // console.log ('users = ', users.user);
+        if(users.user)
+          this.props.history.push(`/profile/${users.user.id}`);
+      } else {
+        console.log('User is not Authenticated!');
+      }
+    }
   }
 
   emailValueChanged(e) {
@@ -66,18 +90,6 @@ export default class SignIn extends React.Component {
   loginClicked() {
     if (this.state.validation.success) {
       this.props.dispatch(signIn(this.state.email, this.state.password))
-      
-      setTimeout(()=>{
-        const {users} = this.props;
-
-        Auth.authenticateUser(users.token);
-
-        if (Auth.isUserAuthenticated) {
-          this.props.history.push(`/profile/${users.user.id}`);
-        } else {
-          console.log('User is not Authenticated!');
-        }
-      }, 2000)
     }
   }
 
@@ -96,7 +108,7 @@ export default class SignIn extends React.Component {
         <h3>{this.state.validation.passwordError}</h3>
       </div>
       <div>
-        {<button onClick={this.loginClicked.bind(this)}>Login</button>}
+        <button onClick={this.loginClicked.bind(this)}>Login</button>
       </div>
     </div>
     );

@@ -3,19 +3,18 @@ import querystring from 'querystring';
 
 import Auth from '../modules/Auth';
 
-export function signUp(name, age, username, email, password) {
+export function signUp(name, age, username, email, password, role) {
   return (dispatch) => {
     axios.post('http://localhost:3000/auth/signup/', querystring.stringify({
       name,
       age,
       username,
       email,
-      password
+      password,
+      role
     })).then((response) => {
-      // console.log('Fulfilled');
       dispatch({ type: 'SIGNUP_USER_FULFILLED', payload: response.data });
     }).catch((err) => {
-      // console.log('Rejected');
       dispatch({ type: 'SIGNUP_USER_REJECTED', payload: err });
     });
   };
@@ -27,10 +26,8 @@ export function signIn(email, password) {
       email,
       password
     })).then((response) => {
-      // console.log('Fulfilled');
       dispatch({ type: 'SIGNIN_USER_FULFILLED', payload: response.data });
     }).catch((err) => {
-      // console.log('Rejected');
       dispatch({ type: 'SIGNIN_USER_REJECTED', payload: err });
     });
   };

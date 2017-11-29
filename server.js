@@ -8,6 +8,11 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import config from './webpack.config.babel';
 
+import localSignupStrategy from './server/passport/local-signup';
+import localLoginStrategy from './server/passport/local-login';
+import authRoutes from './server/routes/auth';
+import apiRoutes from './server/routes/api';
+
 const compiler = webpack(config);
 const app = express();
 
@@ -19,9 +24,6 @@ app.use(passport.initialize());
 const DIST_DIR = path.join(__dirname, 'build');
 
 // load passport strategies
-const localSignupStrategy = require('./server/passport/local-signup');
-const localLoginStrategy = require('./server/passport/local-login');
-
 passport.use('local-signup', localSignupStrategy);
 passport.use('local-login', localLoginStrategy);
 
@@ -30,23 +32,16 @@ const authCheckMiddleware = require('./server/middleware/auth-check');
 
 app.use('/api', authCheckMiddleware);
 
-// console.log('\n\nHi,\nIm\nServer\n\n');
-// routes
-const authRoutes = require('./server/routes/auth');
-const apiRoutes = require('./server/routes/api');
+console.log('\n\nHi,\nIm\nServer\n\n');
 
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
-
 
 // Tell express to use the webpack-dev-middleware and use the webpack.config.js
 // configuration file as a base.
 
 app.use(webpackDevMiddleware(compiler, {
   historyApiFallback: true,
-  // proxy: {
-  //   '*': 'http://localhost:3000/'
-  // }
   contentBase: 'http://localhost:3000/',
   quiet: true,
   noInfo: true,
@@ -59,7 +54,6 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.use(webpackHotMiddleware(compiler));
-
 
 app.get('*', (req, res, next) => {
   const filename = path.join(DIST_DIR, 'index.html');

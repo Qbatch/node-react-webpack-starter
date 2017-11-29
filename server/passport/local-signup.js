@@ -17,6 +17,7 @@ module.exports = new PassportLocalStrategy({
     req.body.username.trim(),
     req.body.password.trim(),
     req.body.email.trim(),
+    req.body.role.trim(),
     (err) => {
       if (err) { return done(err); }
 

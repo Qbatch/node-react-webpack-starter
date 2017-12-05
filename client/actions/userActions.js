@@ -3,8 +3,10 @@ import querystring from 'querystring';
 
 import Auth from '../modules/Auth';
 
-export function signUp(name, age, username, email, password, role) {
+export function signUpAction(name, age, username, email, password, role) {
   return (dispatch) => {
+    dispatch({ type: 'SIGNUP_USER' });
+
     axios.post('http://localhost:3000/auth/signup/', querystring.stringify({
       name,
       age,
@@ -20,8 +22,10 @@ export function signUp(name, age, username, email, password, role) {
   };
 }
 
-export function signIn(email, password) {
+export function signInAction(email, password) {
   return (dispatch) => {
+    dispatch({ type: 'SIGNIN_USER' });
+
     axios.post('http://localhost:3000/auth/login/', querystring.stringify({
       email,
       password
@@ -35,6 +39,8 @@ export function signIn(email, password) {
 
 export function fetchUser(userId) {
   return (dispatch) => {
+    dispatch({ type: 'FETCH_USER_FULFILLED' });
+
     axios.get(`http://localhost:3000/api/users/${userId}`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

@@ -136,15 +136,15 @@ export function createProduct(name, color, size, description, price, sellerId, c
 User.sync({ force: true }).then(() => {
   console.log('User Created Successfully');
 
-  // createUser('ABC Seller2', 23, 'ShahG', '12345678', 'abcs2.xyz@gmail.com', 'Seller');
+  createUser('ABC Seller2', 23, 'ShahG', '12345678', 'abcs2.xyz@gmail.com', 'Seller');
   // createUser('ABC Seller1', 24, 'Ibi@Zahoor', '12345678', 'abcs1.xyz@gmail.com', 'Seller');
-  createUser('ABC Buyer1', 23, 'ShahG', '12345678', 'abcb1.xyz@gmail.com', 'Buyer');
+  //  createUser('ABC Buyer1', 23, 'ShahG', '12345678', 'abcb1.xyz@gmail.com', 'Buyer');
 
-  createProduct('ABC DEF', 'RED', '10', 'Dummy Description', '100', 2);
-  createProduct('ABC GHI', 'GREEN', '20', 'Dummy Description', '200', 2);
-  createProduct('ABC JKL', 'BLUE', '30', 'Dummy Description', '300', 2);
-  createProduct('ABC MNO', 'ORANGE', '40', 'Dummy Description', '400', 2);
-  createProduct('ABC PQR', 'BLACK', '50', 'Dummy Description', '500', 2);
+//   createProduct('ABC DEF', 'RED', '10', 'Dummy Description', '100', 2);
+//   createProduct('ABC GHI', 'GREEN', '20', 'Dummy Description', '200', 2);
+//   createProduct('ABC JKL', 'BLUE', '30', 'Dummy Description', '300', 2);
+//   createProduct('ABC MNO', 'ORANGE', '40', 'Dummy Description', '400', 2);
+//   createProduct('ABC PQR', 'BLACK', '50', 'Dummy Description', '500', 2);
 });
 
 // force: true will drop the table if it already exists

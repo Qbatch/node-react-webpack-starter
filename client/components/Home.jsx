@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <div>
       <div>
-        <Link to={'/login'}>Sign In</Link>
+        <Link to='/login'>Sign In</Link>
       </div>
       <div>
         <Link to={'/signup'}>Sign Up</Link>

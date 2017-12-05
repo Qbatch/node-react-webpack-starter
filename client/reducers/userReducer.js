@@ -1,9 +1,8 @@
-export default function reducer(state = {
-  users: [],
+const userReducer = (state = {
   fetching: false,
   fetched: false,
   error: null
-}, action) {
+}, action) => {
   switch (action.type) {
     case 'SIGNUP_USER': case 'SIGNIN_USER': case 'FETCH_USER': {
       return {
@@ -23,11 +22,13 @@ export default function reducer(state = {
         ...state,
         fetching: false,
         fetched: true,
-        users: action.payload
+        ...action.payload
       };
     }
     default: {
       return state;
     }
   }
-}
+};
+
+export default userReducer;

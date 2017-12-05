@@ -145,12 +145,14 @@ router.post('/login', (req, res, next) => {
       });
     }
 
-    return res.json({
+    const data = {
       success: true,
-      message: 'You have successfully logged in!',
+      message: 'You have successfully loged in.',
       token,
-      user: userData
-    });
+      id: userData.id
+    };
+
+    return res.json(data);
   })(req, res, next);
 });
 

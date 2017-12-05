@@ -1,55 +1,54 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import validator from 'validator';
 
-import {signIn} from '../actions/userActions';
+import SignInComponent from '../components/SignIn.jsx';
+
+import { signInAction } from '../actions/userActions';
+
 import Auth from '../modules/Auth';
 
-@connect((store) => {
-  return {
-    users: store.users.users,
-  };
-})
-export default class SignIn extends React.Component {
+class SignIn extends React.Component {
   
-  constructor() {
-    super();
+  state = {
+    email: 'abc.xyz@gmail.com',
+    password: "12345678",
+    validation: {
+      emailError: '',
+      passwordError: '',
+      success: true
+    }
+  };
 
-    this.state = {
-      email: "abc.xyz@gmail.com",
-      password: "12345678",
-      validation: {
-        emailError: '',
-        passwordError: '',
-        success: true
-      }
-    };
-  }
+  // componentWillMount() {
+  //   // console.log('componentWillMount()');
+
+  //   console.log('thisProps = ', this.props);
+  // }
 
   componentWillReceiveProps(nextProps) {
     // invoked every time component is recieves new props.
     // does not before initial 'render'
 
-    // console.log('nextProps = ', nextProps);
-    const {users} = nextProps;
-    
-    if(users) {
-      if(users.token) {
-        Auth.authenticateUser(users.token);
+    console.log('nextProps = ', nextProps);
+    const {user} = nextProps;
+
+    if(user) {
+      if(user.token) {
+        Auth.authenticateUser(user.token);
       }
 
       if (Auth.isUserAuthenticated) {
-        // console.log('User is Authenticated!');
-        // console.log ('users = ', users.user);
-        if(users.user)
-          this.props.history.push(`/profile/${users.user.id}`);
+        console.log('User with id#', user.id, ' is Authenticated!');
+        // this.props.history.push(`/profile/${data.id}`);
       } else {
         console.log('User is not Authenticated!');
       }
     }
   }
 
-  emailValueChanged(e) {
+  emailValueChanged = (e) => {
     const email = e.target.value;
     this.setState({email: email});
 
@@ -68,7 +67,7 @@ export default class SignIn extends React.Component {
     }
   }
 
-  passwordValueChanged(e) {
+  passwordValueChanged = (e) => {
     const password = e.target.value;
     this.setState({password: password});
 
@@ -87,30 +86,23 @@ export default class SignIn extends React.Component {
     }
   }
 
-  loginClicked() {
+  loginClicked = () => {
     if (this.state.validation.success) {
-      this.props.dispatch(signIn(this.state.email, this.state.password))
+      this.props.dispatch(signInAction(this.state.email, this.state.password))
     }
   }
 
   render() {
     return (
-    <div>
-      <h1>
-        Sign In
-      </h1>
-      <div>
-        <input value={this.state.email} onChange={this.emailValueChanged.bind(this)}/>
-        <h3>{this.state.validation.emailError}</h3>
-      </div>
-      <div>
-        <input value={this.state.password} onChange={this.passwordValueChanged.bind(this)}/>
-        <h3>{this.state.validation.passwordError}</h3>
-      </div>
-      <div>
-        <button onClick={this.loginClicked.bind(this)}>Login</button>
-      </div>
-    </div>
+      <SignInComponent {...this.state} 
+        onEmailValueChanged={this.emailValueChanged}
+        onPasswordValueChanged={this.passwordValueChanged}
+        onLoginClicked={this.loginClicked} 
+      />
     );
   }
 }
+
+export default connect(
+  state => ({ user: state.user })
+)(SignIn)

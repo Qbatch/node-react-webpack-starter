@@ -16,51 +16,52 @@ sequelize
   });
 
 export const User = sequelize.define('user', {
-    id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    name: {
-        type: Sequelize.STRING
-    },
-    age: {
-        type: Sequelize.INTEGER
-    },
-    username: {
-        type: Sequelize.STRING
-    },
-    password: {
-        type: Sequelize.STRING
-    },
-    email: {
-        type: Sequelize.STRING
-    },
-    role: {
-        type: Sequelize.STRING
-    }
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  name: {
+    type: Sequelize.STRING
+  },
+  age: {
+    type: Sequelize.INTEGER
+  },
+  username: {
+    type: Sequelize.STRING
+  },
+  password: {
+    type: Sequelize.STRING
+  },
+  email: {
+    type: Sequelize.STRING,
+    unique: true
+  },
+  role: {
+    type: Sequelize.STRING
+  }
 });
 
 export const Product = sequelize.define('product', {
   id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
   name: {
-      type: Sequelize.STRING
+    type: Sequelize.STRING
   },
   color: {
-      type: Sequelize.INTEGER
+    type: Sequelize.INTEGER
   },
   size: {
-      type: Sequelize.STRING
+    type: Sequelize.STRING
   },
   description: {
-      type: Sequelize.STRING
+    type: Sequelize.STRING
   },
   price: {
-      type: Sequelize.STRING
+    type: Sequelize.STRING
   },
   sellerId: {
     type: Sequelize.INTEGER
@@ -69,40 +70,40 @@ export const Product = sequelize.define('product', {
 
 export const Order = sequelize.define('order', {
   id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
   userId: {
-      type: Sequelize.INTEGER
+    type: Sequelize.INTEGER
   },
   status: {
-      type: Sequelize.STRING
+    type: Sequelize.STRING
   },
   totalPrice: {
-      type: Sequelize.FLOAT
+    type: Sequelize.FLOAT
   }
 });
 
 export const OrderItems = sequelize.define('order_items', {
   orderId: {
-      type: Sequelize.INTEGER
+    type: Sequelize.INTEGER
   },
   productId: {
-      type: Sequelize.INTEGER
+    type: Sequelize.INTEGER
   },
   price: {
-      type: Sequelize.STRING
+    type: Sequelize.STRING
   },
   quantity: {
-      type: Sequelize.STRING
+    type: Sequelize.STRING
   }
 });
 
 export function createUser(name, age, username, password, email, role, cb) {
-  bcrypt.hash(password, saltRounds, (err, hash) => {
-    if (err) {
-      if (cb) cb(err);
+  bcrypt.hash(password, saltRounds, (passwordErr, hash) => {
+    if (passwordErr) {
+      if (cb) cb(passwordErr);
     }
     // Store hash in your password DB.
     User.create({
@@ -112,9 +113,12 @@ export function createUser(name, age, username, password, email, role, cb) {
       password: hash,
       email,
       role
+    }).then(() => {
+      if (cb) cb(null);
+    }).catch((insertionErr) => {
+      console.log(insertionErr);
+      if (cb) cb(insertionErr);
     });
-
-    if (cb) cb(null);
   });
 }
 
@@ -136,15 +140,15 @@ export function createProduct(name, color, size, description, price, sellerId, c
 User.sync({ force: true }).then(() => {
   console.log('User Created Successfully');
 
-  createUser('ABC Seller2', 23, 'ShahG', '12345678', 'abcs2.xyz@gmail.com', 'Seller');
+  // createUser('ABC Seller2', 23, 'ShahG', '12345678', 'abcs2.xyz@gmail.com', 'Seller');
   // createUser('ABC Seller1', 24, 'Ibi@Zahoor', '12345678', 'abcs1.xyz@gmail.com', 'Seller');
-  //  createUser('ABC Buyer1', 23, 'ShahG', '12345678', 'abcb1.xyz@gmail.com', 'Buyer');
+  createUser('ABC Buyer1', 23, 'ShahG', '12345678', 'abcb1.xyz@gmail.com', 'Buyer');
 
-//   createProduct('ABC DEF', 'RED', '10', 'Dummy Description', '100', 2);
-//   createProduct('ABC GHI', 'GREEN', '20', 'Dummy Description', '200', 2);
-//   createProduct('ABC JKL', 'BLUE', '30', 'Dummy Description', '300', 2);
-//   createProduct('ABC MNO', 'ORANGE', '40', 'Dummy Description', '400', 2);
-//   createProduct('ABC PQR', 'BLACK', '50', 'Dummy Description', '500', 2);
+  // createProduct('ABC DEF', 'RED', '10', 'Dummy Description', '100', 2);
+  // createProduct('ABC GHI', 'GREEN', '20', 'Dummy Description', '200', 2);
+  // createProduct('ABC JKL', 'BLUE', '30', 'Dummy Description', '300', 2);
+  // createProduct('ABC MNO', 'ORANGE', '40', 'Dummy Description', '400', 2);
+  // createProduct('ABC PQR', 'BLACK', '50', 'Dummy Description', '500', 2);
 });
 
 // force: true will drop the table if it already exists

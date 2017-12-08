@@ -6,15 +6,15 @@ import Home from './components/Home.jsx';
 
 import SignUp from './containers/SignUp';
 import SignIn from './containers/SignIn';
+import Profile from './containers/Profile';
+import LogOut from './containers/LogOut';
 
-import Profile from './components/Profile';
-import LogOut from './components/LogOut';
-import NotFound from './components/NotFound';
+import NotFound from './components/NotFound.jsx';
 
-import AddProduct from './components/AddProduct';
-import EditProduct from './components/EditProduct';
-import DisplayCart from './components/DisplayCart';
-import Payment from './components/Payment';
+import AddProduct from './containers/AddProduct';
+import EditProduct from './containers/EditProduct';
+import DisplayCart from './containers/DisplayCart';
+import Payment from './containers/Payment';
 
 import store from './store';
 

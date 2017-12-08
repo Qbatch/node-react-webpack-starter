@@ -37,9 +37,15 @@ export function signInAction(email, password) {
   };
 }
 
-export function fetchUser(userId) {
+export function clearUserAction() {
   return (dispatch) => {
-    dispatch({ type: 'FETCH_USER_FULFILLED' });
+    dispatch({ type: 'CLEAR_USER_FULFILLED', payload: null });
+  };
+}
+
+export function fetchUserAction(userId) {
+  return (dispatch) => {
+    dispatch({ type: 'FETCH_USER' });
 
     axios.get(`http://localhost:3000/api/users/${userId}`, {
       headers: {

@@ -16,6 +16,9 @@ export default function SignIn(props) {
         <h3>{props.validation.passwordError}</h3>
       </div>
       <div>
+        <h3>{props.validation.error}</h3>
+      </div>
+      <div>
         <button onClick={props.onLoginClicked}>Login</button>
       </div>
     </div>

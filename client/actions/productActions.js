@@ -3,8 +3,16 @@ import querystring from 'querystring';
 
 import Auth from '../modules/Auth';
 
+export function clearProductsAction() {
+  return (dispatch) => {
+    dispatch({ type: 'CLEAR_PRODUCTS_FULFILLED', payload: null });
+  };
+}
+
 export function fetchProducts() {
   return (dispatch) => {
+    dispatch({ type: 'FETCH_PRODUCTS' });
+
     axios.get('http://localhost:3000/api/products/', {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -20,6 +28,8 @@ export function fetchProducts() {
 
 export function fetchProductsBySellerId(id) {
   return (dispatch) => {
+    dispatch({ type: 'FETCH_PRODUCTS' });
+
     axios.get(`http://localhost:3000/api/products/${id}`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -35,6 +45,8 @@ export function fetchProductsBySellerId(id) {
 
 export function addProduct(name, color, size, description, price, sellerID) {
   return (dispatch) => {
+    dispatch({ type: 'ADD_PRODUCT' });
+
     axios.post('http://localhost:3000/api/add_product/', querystring.stringify({
       name,
       color,
@@ -57,6 +69,8 @@ export function addProduct(name, color, size, description, price, sellerID) {
 
 export function editProduct(id, name, color, size, description, price) {
   return (dispatch) => {
+    dispatch({ type: 'EDIT_PRODUCT' });
+
     axios.post('http://localhost:3000/api/edit_product/', querystring.stringify({
       id,
       name,
@@ -79,6 +93,8 @@ export function editProduct(id, name, color, size, description, price) {
 
 export function deleteProduct(id) {
   return (dispatch) => {
+    dispatch({ type: 'DEL_PRODUCT' });
+
     axios.post('http://localhost:3000/api/del_product/', querystring.stringify({
       id
     }), {

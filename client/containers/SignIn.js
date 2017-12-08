@@ -5,7 +5,7 @@ import validator from 'validator';
 
 import SignInComponent from '../components/SignIn.jsx';
 
-import { signInAction } from '../actions/userActions';
+import { clearUserAction, signInAction } from '../actions/userActions';
 
 import Auth from '../modules/Auth';
 
@@ -17,15 +17,16 @@ class SignIn extends React.Component {
     validation: {
       emailError: '',
       passwordError: '',
-      success: true
+      success: true, 
+      error:''
     }
   };
 
-  // componentWillMount() {
-  //   // console.log('componentWillMount()');
-
-  //   console.log('thisProps = ', this.props);
-  // }
+  componentWillMount() {
+    this.props.dispatch (clearUserAction());
+    
+    console.log('componentWillMount() ', this.props);
+  }
 
   componentWillReceiveProps(nextProps) {
     // invoked every time component is recieves new props.
@@ -37,13 +38,24 @@ class SignIn extends React.Component {
     if(user) {
       if(user.token) {
         Auth.authenticateUser(user.token);
-      }
 
-      if (Auth.isUserAuthenticated) {
-        console.log('User with id#', user.id, ' is Authenticated!');
-        // this.props.history.push(`/profile/${data.id}`);
-      } else {
-        console.log('User is not Authenticated!');
+        if (Auth.isUserAuthenticated) {
+          if (user.id) {
+            console.log('User with id#', user.id, ' is Authenticated!');
+            this.props.history.push(`/profile/${user.id}`);
+          }
+        } else {
+          console.log('User is not Authenticated!');
+        }
+      } else if (user.error){
+        console.log('Error Ocurred');
+
+        const val = this.state.validation;
+        val.error = 'Email or Password is Incorrect';
+
+        this.setState({ 
+          validation: val
+        }, () => this.props.dispatch (clearUserAction()));
       }
     }
   }

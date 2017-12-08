@@ -10,7 +10,15 @@ const stripe = require('stripe')(keySecret);
 
 router.get('/users/:userId', (req, res) => {
   User.findById(req.params.userId).then((user) => {
-    res.json(user);
+    const data = {
+      id: user.id,
+      name: user.name,
+      age: user.age,
+      username: user.username,
+      role: user.role
+    };
+
+    res.json(data);
   });
 });
 

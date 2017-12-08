@@ -1,8 +1,10 @@
-const userReducer = (state = {
+const initialState = {
   fetching: false,
   fetched: false,
   error: null
-}, action) => {
+};
+
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SIGNUP_USER': case 'SIGNIN_USER': case 'FETCH_USER': {
       return {
@@ -24,6 +26,9 @@ const userReducer = (state = {
         fetched: true,
         ...action.payload
       };
+    }
+    case 'CLEAR_USER_FULFILLED': {
+      return initialState;
     }
     default: {
       return state;

@@ -15,7 +15,10 @@ export default class SignUp extends React.Component {
     username: 'ABC-XYZ',
     email: 'abc.xyz@gmail.com',
     password: '12345678',
-    role: 'Seller'
+    role: 'Seller',
+    validation: {
+      error: ''
+    }
   };
 
   nameValueChanged = (e) => {
@@ -54,7 +57,7 @@ export default class SignUp extends React.Component {
 
   componentWillMount() {
     // console.log('componentWillMount()');
-
+   
     console.log('thisProps = ', this.props);
   }
 
@@ -62,8 +65,20 @@ export default class SignUp extends React.Component {
     console.log('nextProps: ', nextProps);
     const {user} = nextProps;
     
-    if(user && user.success) {
+    if(user) {
+      if(user.fetched && user.success) {
+        console.log('Sign In');
         this.props.history.push('/login');
+      } else if(!user.fetched && user.error != null) {
+        console.log('Error');
+
+        const val = this.state.validation;
+        val.error = user.error.response.data.message;
+
+        this.setState({ 
+          validation: val
+        });
+      }
     }
   }
 

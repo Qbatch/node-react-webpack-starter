@@ -37,6 +37,9 @@ export default function SignUp(props) {
         />
       </div>
       <div>
+        <h3>{props.validation.error}</h3>
+      </div>
+      <div>
         <button onClick={props.onSignUpClicked}>SignUp</button>
       </div>
     </div>
@@ -49,6 +52,7 @@ SignUp.propTypes = {
   username: PropTypes.string,
   email: PropTypes.string,
   password: PropTypes.string,
+  validation: PropTypes.object,
   onNameValueChanged: PropTypes.func.isRequired,
   onAgeValueChanged: PropTypes.func.isRequired,
   onUsernameValueChanged: PropTypes.func.isRequired,

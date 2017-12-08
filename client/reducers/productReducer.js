@@ -1,9 +1,11 @@
-export default function reducer(state = {
+const initialState = {
   products: [],
   fetching: false,
   fetched: false,
   error: null
-}, action) {
+};
+
+const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'FETCH_PRODUCTS': case 'ADD_PRODUCT': case 'EDIT_PRODUCT': case 'DEL_PRODUCT': {
       return {
@@ -26,8 +28,13 @@ export default function reducer(state = {
         products: action.payload
       };
     }
+    case 'CLEAR_PRODUCTS_FULFILLED': {
+      return initialState;
+    }
     default: {
       return state;
     }
   }
-}
+};
+
+export default productReducer;

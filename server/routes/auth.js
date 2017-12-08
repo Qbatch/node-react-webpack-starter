@@ -53,39 +53,6 @@ function validateSignupForm(payload) {
   };
 }
 
-/**
- * Validate the login form
- *
- * @param {object} payload - the HTTP body message
- * @returns {object} The result of validation. Object contains a boolean validation result,
- *                   errors tips, and a global message for the whole form.
- */
-function validateLoginForm(payload) {
-  const errors = {};
-  let isFormValid = true;
-  let message = '';
-
-  if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
-    isFormValid = false;
-    errors.email = 'Please provide your email address.';
-  }
-
-  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
-    isFormValid = false;
-    errors.password = 'Please provide your password.';
-  }
-
-  if (!isFormValid) {
-    message = 'Check the form for errors.';
-  }
-
-  return {
-    success: isFormValid,
-    message,
-    errors
-  };
-}
-
 router.post('/signup', (req, res, next) => {
   console.log('\n\nsignup Server Side', '\n\n');
   const validationResult = validateSignupForm(req.body);
@@ -98,19 +65,15 @@ router.post('/signup', (req, res, next) => {
     });
   }
 
-
   return passport.authenticate('local-signup', (err) => {
     if (err) {
-      if (err.name === 'MongoError' && err.code === 11000) {
+      if (err.name === 'SequelizeUniqueConstraintError') {
         console.log('\n\nDuplicate Email Found\n\n');
         // the 11000 Mongo code is for a duplication email error
         // the 409 HTTP status code is for conflict error
         return res.status(409).json({
           success: false,
-          message: 'Check the form for errors.',
-          errors: {
-            email: 'This email is already taken.'
-          }
+          message: 'This email is already taken.'
         });
       }
 

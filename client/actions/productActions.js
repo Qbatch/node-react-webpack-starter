@@ -9,11 +9,28 @@ export function clearProductsAction() {
   };
 }
 
-export function fetchProducts() {
+export function fetchProductsLength() {
+  return (dispatch) => {
+    dispatch({ type: 'FETCH_PRODUCTS_LENGTH' });
+
+    axios.get('http://localhost:3000/api/products_length/', {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `bearer ${Auth.getToken()}`
+      }
+    }).then((response) => {
+      dispatch({ type: 'FETCH_PRODUCTS_LENGTH_FULFILLED', payload: response.data });
+    }).catch((err) => {
+      dispatch({ type: 'FETCH_PRODUCTS_LENGTH_REJECTED', payload: err });
+    });
+  };
+}
+
+export function fetchProducts(skip, size) {
   return (dispatch) => {
     dispatch({ type: 'FETCH_PRODUCTS' });
 
-    axios.get('http://localhost:3000/api/products/', {
+    axios.get(`http://localhost:3000/api/products/${skip}/${size}`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `bearer ${Auth.getToken()}`
@@ -26,11 +43,28 @@ export function fetchProducts() {
   };
 }
 
-export function fetchProductsBySellerId(id) {
+export function fetchProductsBySellerIdLength(id) {
+  return (dispatch) => {
+    dispatch({ type: 'FETCH_PRODUCTS_LENGTH' });
+
+    axios.get(`http://localhost:3000/api/products_length/${id}`, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `bearer ${Auth.getToken()}`
+      }
+    }).then((response) => {
+      dispatch({ type: 'FETCH_PRODUCTS_LENGTH_FULFILLED', payload: response.data });
+    }).catch((err) => {
+      dispatch({ type: 'FETCH_PRODUCTS_LENGTH_REJECTED', payload: err });
+    });
+  };
+}
+
+export function fetchProductsBySellerId(id, skip, size) {
   return (dispatch) => {
     dispatch({ type: 'FETCH_PRODUCTS' });
 
-    axios.get(`http://localhost:3000/api/products/${id}`, {
+    axios.get(`http://localhost:3000/api/products/${id}/${skip}/${size}`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `bearer ${Auth.getToken()}`

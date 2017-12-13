@@ -1,3 +1,10 @@
+const initialState = {
+  cart: [],
+  fetching: false,
+  fetched: false,
+  error: null
+};
+
 function insertItem(previousArray, actionArray) {
   const newArray = previousArray.map(item => item);
 
@@ -17,7 +24,7 @@ function insertItem(previousArray, actionArray) {
 }
 
 function removeItem(array, value) {
-  let newArray = array.filter(item => value !== item.id);
+  const newArray = array.filter(item => value !== item.id);
   return newArray;
 }
 
@@ -39,12 +46,7 @@ function decrementQuantity(arr, id, quantity) {
   return newArray;
 }
 
-export default function reducer(state = {
-  cart: [],
-  fetching: false,
-  fetched: false,
-  error: null
-}, action) {
+const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_TO_CART': case 'CREATE_CHARGE': case 'CHECKOUT': {
       return {
@@ -111,4 +113,6 @@ export default function reducer(state = {
       return state;
     }
   }
-}
+};
+
+export default cartReducer;

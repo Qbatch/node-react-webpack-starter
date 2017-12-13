@@ -6,8 +6,7 @@ import SignUpComponent from '../components/SignUp.jsx';
 
 import { signUpAction } from '../actions/userActions';
 
-@connect(state => ({ user: state.user }))
-export default class SignUp extends React.Component {
+class SignUp extends React.Component {
 
   state = {
     name: 'ABCD',
@@ -56,9 +55,7 @@ export default class SignUp extends React.Component {
   }
 
   componentWillMount() {
-    // console.log('componentWillMount()');
-   
-    console.log('thisProps = ', this.props);
+    console.log('SignUp componentWillMount() ', this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -67,10 +64,9 @@ export default class SignUp extends React.Component {
     
     if(user) {
       if(user.fetched && user.success) {
-        console.log('Sign In');
         this.props.history.push('/login');
       } else if(!user.fetched && user.error != null) {
-        console.log('Error');
+        // console.log('Error');
 
         const val = this.state.validation;
         val.error = user.error.response.data.message;
@@ -95,3 +91,11 @@ export default class SignUp extends React.Component {
     );
   }
 }
+
+export default connect(
+  state => ({
+    user: state.user//,
+    // router: state.router
+  })
+)(SignUp)
+

@@ -22,14 +22,35 @@ router.get('/users/:userId', (req, res) => {
   });
 });
 
-router.get('/products', (req, res) => {
+router.get('/products_length', (req, res) => {
   Product.findAll().then((products) => {
+    res.json(products.length);
+  });
+});
+
+router.get('/products/:skip/:size', (req, res) => {
+  Product.findAll({
+    offset: req.params.skip,
+    limit: req.params.size
+  }).then((products) => {
     res.json(products);
   });
 });
 
-router.get('/products/:id', (req, res) => {
+router.get('/products_length/:id', (req, res) => {
   Product.findAll({
+    where: {
+      sellerId: req.params.id
+    }
+  }).then((products) => {
+    res.json(products.length);
+  });
+});
+
+router.get('/products/:id/:skip/:size', (req, res) => {
+  Product.findAll({
+    offset: req.params.skip,
+    limit: req.params.size,
     where: {
       sellerId: req.params.id
     }

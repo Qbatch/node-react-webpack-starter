@@ -15,6 +15,14 @@ class AddProduct extends React.Component {
     price: '500'
   };
 
+  componentWillMount() {
+    console.log('AddProduct componentWillMount() ', this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps = ', nextProps);
+  }
+  
   nameValueChanged = (e) => {
     const name = e.target.value;
     this.setState({name});
@@ -68,8 +76,4 @@ class AddProduct extends React.Component {
 }
 
 export default connect(
-    state => ({
-      user: state.user,
-      products: state.products.products
-    })
 )(AddProduct)

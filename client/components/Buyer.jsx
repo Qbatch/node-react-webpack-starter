@@ -30,6 +30,8 @@ export default class Buyer extends React.PureComponent {
     const {
       products,
       cart,
+      onLeftClicked,
+      onRightClicked,
       onDisplayCart
     } = this.props;
 
@@ -40,6 +42,8 @@ export default class Buyer extends React.PureComponent {
         </div>
         <div>
           <h2>Products</h2>
+          <button onClick={() => onLeftClicked()}>Left</button>
+          <button onClick={() => onRightClicked()}>Right</button>
           {products && products.map((item, index) => (
             <span key={index}>
               <h4> Name: {item.name}, Color: {item.color}, Size: {item.size}, Description: {item.description}, Price: {item.price}
@@ -56,6 +60,8 @@ export default class Buyer extends React.PureComponent {
 Buyer.propTypes = {
   products: PropTypes.array,
   cart: PropTypes.array,
+  onLeftClicked: PropTypes.func.isRequired,
+  onRightClicked: PropTypes.func.isRequired,
   onAddToCartClicked: PropTypes.func.isRequired,
   onRemoveFromCartClicked: PropTypes.func.isRequired,
   onDisplayCart: PropTypes.func.isRequired

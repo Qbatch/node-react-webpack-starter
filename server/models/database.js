@@ -144,18 +144,28 @@ User.sync({ force: true }).then(() => {
   // createUser('ABC Seller1', 24, 'Ibi@Zahoor', '12345678', 'abcs1.xyz@gmail.com', 'Seller');
   createUser('ABC Buyer1', 23, 'ShahG', '12345678', 'abcb1.xyz@gmail.com', 'Buyer');
 
-  // createProduct('ABC DEF', 'RED', '10', 'Dummy Description', '100', 2);
-  // createProduct('ABC GHI', 'GREEN', '20', 'Dummy Description', '200', 2);
-  // createProduct('ABC JKL', 'BLUE', '30', 'Dummy Description', '300', 2);
-  // createProduct('ABC MNO', 'ORANGE', '40', 'Dummy Description', '400', 2);
-  // createProduct('ABC PQR', 'BLACK', '50', 'Dummy Description', '500', 2);
+  createProduct('ABC', 'ORANGE', '40', 'Dummy Description', '400', 2);
+  createProduct('DEF', 'RED', '10', 'Dummy Description', '100', 2);
+  createProduct('GHI', 'GREEN', '20', 'Dummy Description', '200', 2);
+  createProduct('JKL', 'BLUE', '30', 'Dummy Description', '300', 2);
+  createProduct('MNO', 'ORANGE', '40', 'Dummy Description', '400', 2);
+  createProduct('PQR', 'BLACK', '50', 'Dummy Description', '500', 2);
+  createProduct('STU', 'RED', '10', 'Dummy Description', '100', 2);
+  createProduct('VWX', 'GREEN', '20', 'Dummy Description', '200', 2);
+  createProduct('YZ', 'BLUE', '30', 'Dummy Description', '300', 2);
+  createProduct('ABC2', 'ORANGE', '40', 'Dummy Description', '400', 2);
+  createProduct('DEF2', 'RED', '10', 'Dummy Description', '100', 2);
+  createProduct('GHI2', 'GREEN', '20', 'Dummy Description', '200', 2);
+  createProduct('JKL2', 'BLUE', '30', 'Dummy Description', '300', 2);
+  createProduct('MNO2', 'ORANGE', '40', 'Dummy Description', '400', 2);
+  createProduct('PQR2', 'BLACK', '50', 'Dummy Description', '500', 2);
+  createProduct('STU2', 'RED', '10', 'Dummy Description', '100', 2);
+  createProduct('VWX2', 'GREEN', '20', 'Dummy Description', '200', 2);
+  createProduct('YZ2', 'BLUE', '30', 'Dummy Description', '300', 2);
 });
 
 // force: true will drop the table if it already exists
 User.sync({ force: true }).then(() => {
-  // User.findAll().then((users) => {
-  //   console.log(users);
-  // });
 });
 
 Product.sync({ force: true }).then(() => {

@@ -23,9 +23,9 @@ class SignIn extends React.Component {
   };
 
   componentWillMount() {
-    this.props.dispatch (clearUserAction());
+    // this.props.dispatch (clearUserAction());
     
-    console.log('componentWillMount() ', this.props);
+    console.log('SignIn componentWillMount() ', this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,14 +41,14 @@ class SignIn extends React.Component {
 
         if (Auth.isUserAuthenticated) {
           if (user.id) {
-            console.log('User with id#', user.id, ' is Authenticated!');
+            // console.log('User with id#', user.id, ' is Authenticated!');
             this.props.history.push(`/profile/${user.id}`);
           }
         } else {
-          console.log('User is not Authenticated!');
+          // console.log('User is not Authenticated!');
         }
       } else if (user.error){
-        console.log('Error Ocurred');
+        // console.log('Error Ocurred');
 
         const val = this.state.validation;
         val.error = 'Email or Password is Incorrect';
@@ -116,5 +116,8 @@ class SignIn extends React.Component {
 }
 
 export default connect(
-  state => ({ user: state.user })
+  state => ({ 
+    user: state.user//,
+    // router: state.router 
+  })
 )(SignIn)

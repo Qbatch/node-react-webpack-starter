@@ -8,12 +8,22 @@ import Auth from '../modules/Auth';
 
 class EditProduct extends React.Component {
   state = {
-    name: "...Name",
-    color: "...Color",
-    size: '...Size',
-    description: '...Description',
+    name: 'Name',
+    color: "Color",
+    size: 'Size',
+    description: 'Description',
     price: '500'
   };
+
+  componentWillMount() {
+    console.log('EditProduct componentWillMount() ', this.props);
+
+    this.setState({name: this.props.location.state.name});
+    this.setState({color: this.props.location.state.color});
+    this.setState({size: this.props.location.state.size});
+    this.setState({description: this.props.location.state.description});
+    this.setState({price: this.props.location.state.price});
+  }
 
   nameValueChanged = (e) => {
     const name = e.target.value;
@@ -68,8 +78,4 @@ class EditProduct extends React.Component {
 }
 
 export default connect(
-    state => ({
-      user: state.user,
-      products: state.products.products
-    })
 )(EditProduct)

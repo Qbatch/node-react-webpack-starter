@@ -22,6 +22,8 @@ export default class Buyer extends React.Component {
       <BuyerComponent
         products={this.props.products}
         cart={this.props.cart}
+        onLeftClicked={this.props.onLeftClicked}
+        onRightClicked={this.props.onRightClicked}
         onAddToCartClicked={this.addToCart}
         onRemoveFromCartClicked={this.removeFromCart}
         onDisplayCart={this.displayCart}

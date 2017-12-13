@@ -12,7 +12,10 @@ class DisplayCart extends React.Component {
     isCheckout: false
   };
       
-      
+  componentWillMount() {
+    console.log('DisplayCart componentWillMount() ', this.props);
+  }
+
   componentWillReceiveProps(nextProps) {
     // invoked every time component is recieves new props.
     // does not before initial 'render'
@@ -100,8 +103,6 @@ class DisplayCart extends React.Component {
 
 export default connect(
   state => ({
-    user: state.user,
-    products: state.products.products,
     cart: state.cart.cart
   })
 )(DisplayCart)

@@ -6,7 +6,7 @@ import Buyer from './Buyer';
 import Seller from './Seller';
 
 import { clearUserAction, fetchUserAction } from '../actions/userActions';
-import { clearProductsAction, fetchProducts, fetchProductsBySellerId, deleteProduct } from '../actions/productActions';
+import { clearProductsAction, fetchProductsLength, fetchProducts, fetchProductsBySellerIdLength, fetchProductsBySellerId } from '../actions/productActions';
 
 import Auth from '../modules/Auth';
 
@@ -14,46 +14,73 @@ class Profile extends React.Component {
   
   state = {
     userFetched: false,
-    userLogout: false
+    userLogout: false,
+    productsChunk: 5,
+    productsSkip: 0
   };
 
   componentWillMount() {
-    // console.log('componentWillMount() ', this.props);
+    console.log('Profile componentWillMount() ', this.props);
 
     this.props.dispatch(fetchUserAction(this.props.match.params.id));
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('componentWillReceiveProps() ', nextProps);
+    console.log('componentWillReceiveProps() ', nextProps);
 
-    const {user} = nextProps;
-    const {products} = nextProps;
+    const {user, productsLength, products} = nextProps;
 
-    if (user && !this.state.userFetched && user.role) {
-      this.setState({userFetched: true})
+    if (user && user.role) {
+      if (!this.state.userFetched) {
+        this.setState({userFetched: true})
         
-      if (user.role == 'Seller') {
-        // console.log('Seller');
-        this.props.dispatch(fetchProductsBySellerId(nextProps.match.params.id))
-      } else if (user.role == 'Buyer') {
-        // console.log('Buyer');
-        this.props.dispatch(fetchProducts())
+        if (user.role == 'Seller') {
+          // console.log('Seller');
+          this.props.dispatch(fetchProductsBySellerIdLength(nextProps.match.params.id));
+        } else if (user.role == 'Buyer') {
+          // console.log('Buyer');
+          this.props.dispatch(fetchProductsLength());
+        }
+      } else {
+        if (productsLength > 0) {
+          if(products === this.props.products) {
+            this.showProductsByRole();
+          }
+        }
       }
-    }
-
-    if (this.state.userLogout && !user.id && products.length == 0) {
-      this.props.history.push('/logout');
     }
   }
 
   logoutClicked = () => {
-    // Make Sure When state is changed than dispatch
-    this.setState({
-      userLogout: true
-    }, () => {
-      this.props.dispatch(clearUserAction());
-      this.props.dispatch(clearProductsAction());
-    });
+    this.props.history.push('/logout');
+  }
+
+  showProductsByRole = () => {
+    if (this.props.user.role == 'Seller') {
+      this.props.dispatch(fetchProductsBySellerId(this.props.match.params.id, this.state.productsSkip, this.state.productsChunk));
+    } else if (this.props.user.role == 'Buyer') {
+      this.props.dispatch(fetchProducts(this.state.productsSkip, this.state.productsChunk));
+    }
+  }
+
+  leftClicked = () => {
+    if (this.state.productsSkip != 0) {
+      this.setState({
+        productsSkip: this.state.productsSkip - this.state.productsChunk
+      }, () => {
+        this.showProductsByRole();
+      });
+    }
+  }
+
+  rightClicked = () => {
+   if (this.state.productsSkip + this.state.productsChunk < this.props.productsLength) {
+      this.setState({
+        productsSkip: this.state.productsSkip + this.state.productsChunk
+      }, () => {
+        this.showProductsByRole();
+      });
+    }
   }
 
   render() {
@@ -64,8 +91,15 @@ class Profile extends React.Component {
         <ProfileComponent user={this.props.user}
           onLogoutClicked={this.logoutClicked}
         />
-        {user.role === 'Buyer' && <Buyer {...this.props}/>}
-        {user.role === 'Seller' && <Seller {...this.props}/>}
+        {user.role === 'Buyer' && <Buyer {...this.props} 
+          onLeftClicked={this.leftClicked}
+          onRightClicked={this.rightClicked}
+        />}
+        {user.role === 'Seller' && <Seller {...this.props}
+          onLeftClicked={this.leftClicked}
+          onRightClicked={this.rightClicked}
+          onShowProducts={this.showProductsByRole}
+        />}
       </div>
     );
   }
@@ -74,6 +108,7 @@ class Profile extends React.Component {
 export default connect(
   state => ({
     user: state.user,
+    productsLength: state.products.productsLength,
     products: state.products.products,
     cart: state.cart.cart
   })

@@ -55,9 +55,4 @@ class Payment extends React.Component {
 }
 
 export default connect(
-  state => ({
-    user: state.user,
-    products: state.products.products,
-    cart: state.cart.cart
-  })
 )(Payment)

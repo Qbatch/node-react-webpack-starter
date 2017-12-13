@@ -4,8 +4,16 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
 
-import reducer from './reducers';
+import createHistory from 'history/createBrowserHistory';
+import { routerMiddleware } from 'react-router-redux';
 
-const middleware = applyMiddleware(promise(), thunk, createLogger());
+import reducers from './reducers/index';
 
-export default createStore(reducer, middleware);
+export const history = createHistory();
+
+const middleware = routerMiddleware(history);
+
+export const store = createStore(
+  reducers,
+  applyMiddleware(middleware, promise(), thunk, createLogger())
+);

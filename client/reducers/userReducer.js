@@ -1,3 +1,5 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
+
 const initialState = {
   fetching: false,
   fetched: false,
@@ -6,6 +8,10 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOCATION_CHANGE: {
+      console.log('In LOCATION_CHANGE USER_REDUCER');
+      return initialState;
+    }
     case 'SIGNUP_USER': case 'SIGNIN_USER': case 'FETCH_USER': {
       return {
         ...state,

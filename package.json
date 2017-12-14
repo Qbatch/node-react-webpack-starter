@@ -11,7 +11,7 @@
     "build": "npm run clean && webpack",
     "web": "./node_modules/.bin/webpack --watch",
     "dev": "./node_modules/.bin/webpack-dev-server --inline --hot",
-    "nodemon": "nodemon server.js --watch server.js --exec babel-node",
+    "nodemon": "nodemon server/server.js --watch server --exec babel-node",
     "watch": "node_modules/.bin/babel-watch -D -w server.js --exec babel-node"
   },
   "author": "",

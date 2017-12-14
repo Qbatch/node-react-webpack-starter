@@ -54,9 +54,9 @@ function validateSignupForm(payload) {
 }
 
 router.post('/signup', (req, res, next) => {
-  console.log('\n\nsignup Server Side', '\n\n');
+  // console.log('\n\nsignup Server Side', '\n\n');
   const validationResult = validateSignupForm(req.body);
-  console.log('\n\nvalidationResult = ', validationResult, '\n\n');
+  // console.log('\n\nvalidationResult = ', validationResult, '\n\n');
   if (!validationResult.success) {
     return res.status(400).json({
       success: false,

@@ -116,7 +116,7 @@ router.get('/cart/product/:id', (req, res) => {
 });
 
 router.post('/cart/charge', (req, res) => {
-  console.log('Create Charge: ', req.body);
+  // console.log('Create Charge: ', req.body);
   stripe.charges.create({
     amount: req.body.amount,
     description: 'Sample Charge',
@@ -129,9 +129,9 @@ router.post('/cart/charge', (req, res) => {
 });
 
 router.post('/cart/checkout', (req, res) => {
-  console.log('\n\n CheckOut : ', req.body);
+  // console.log('\n\n CheckOut : ', req.body);
   const data = JSON.parse(req.body.data);
-  console.log('\n\n Data : ', data);
+  // console.log('\n\n Data : ', data);
 
   Order.create({
     userId: parseInt(req.body.userId, 10),

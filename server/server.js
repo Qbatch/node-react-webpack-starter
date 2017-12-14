@@ -6,12 +6,12 @@ import bodyParser from 'body-parser';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import config from './webpack.config.babel';
+import config from '../webpack.config.babel';
 
-import localSignupStrategy from './server/passport/local-signup';
-import localLoginStrategy from './server/passport/local-login';
-import authRoutes from './server/routes/auth';
-import apiRoutes from './server/routes/api';
+import localSignupStrategy from './passport/local-signup';
+import localLoginStrategy from './passport/local-login';
+import authRoutes from './routes/auth';
+import apiRoutes from './routes/api';
 
 const compiler = webpack(config);
 const app = express();
@@ -21,14 +21,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // pass the passport middleware
 app.use(passport.initialize());
 
-const DIST_DIR = path.join(__dirname, 'build');
+const DIST_DIR = path.join('/Users/qbatch/Desktop/node-react-webpack-starter', 'build'); // __dirname
 
 // load passport strategies
 passport.use('local-signup', localSignupStrategy);
 passport.use('local-login', localLoginStrategy);
 
 // pass the authenticaion checker middleware
-const authCheckMiddleware = require('./server/middleware/auth-check');
+const authCheckMiddleware = require('./middleware/auth-check');
 
 app.use('/api', authCheckMiddleware);
 

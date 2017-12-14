@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App.jsx';
-import '../styles/style.scss';
+import './styles/style.scss';
 
 if (module.hot) {
   module.hot.accept();

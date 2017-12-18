@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Pagination from 'material-ui-pagination';
 
 import ProfileComponent from '../components/Profile.jsx';
 import Buyer from './Buyer';
@@ -15,6 +16,9 @@ class Profile extends React.Component {
   state = {
     userFetched: false,
     userLogout: false,
+    totalPages: -1,
+    displayPages: 7,
+    currentPageNo: 1,
     productsChunk: 5,
     productsSkip: 0
   };
@@ -44,7 +48,10 @@ class Profile extends React.Component {
       } else {
         if (productsLength > 0) {
           if(products === this.props.products) {
-            this.showProductsByRole();
+            this.setState({
+              totalPages: parseInt((productsLength / this.state.productsChunk) + 1, 10)},
+              () => { console.log(this.state); this.showProductsByRole(); }
+            );
           }
         }
       }
@@ -63,41 +70,79 @@ class Profile extends React.Component {
     }
   }
 
-  leftClicked = () => {
-    if (this.state.productsSkip != 0) {
-      this.setState({
-        productsSkip: this.state.productsSkip - this.state.productsChunk
-      }, () => {
-        this.showProductsByRole();
-      });
+  setTotal(event, totalPages) {
+    // eslint-disable-next-line no-param-reassign
+    totalPages = totalPages.trim();
+    if (totalPages.match(/^\d*$/)) {
+      if (totalPages !== '') {
+        // eslint-disable-next-line no-param-reassign
+        totalPages = parseInt(totalPages, 10);
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        totalPages = 0;
+      }
+ 
+      this.setState({ totalPages });
+    }
+  }
+ 
+  setDisplay(event, displayPages) {
+    // eslint-disable-next-line no-param-reassign
+    displayPages = displayPages.trim();
+    if (displayPages.match(/^\d*$/)) {
+      if (displayPages !== '') {
+        // eslint-disable-next-line no-param-reassign
+        displayPages = parseInt(displayPages, 10);
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        displayPages = 0;
+      }
+ 
+      this.setState({ displayPages });
     }
   }
 
-  rightClicked = () => {
-   if (this.state.productsSkip + this.state.productsChunk < this.props.productsLength) {
-      this.setState({
-        productsSkip: this.state.productsSkip + this.state.productsChunk
-      }, () => {
-        this.showProductsByRole();
-      });
-    }
+  displayPage = (pageNo) => {
+    console.log('pageNo = ', pageNo);
+
+    this.setState({
+      productsSkip: (pageNo - 1) * this.state.productsChunk
+    }, () => {
+      this.showProductsByRole();
+    });
   }
 
   render() {
-    const {user} = this.props;
+    const {user, products} = this.props;
 
     return (
       <div>
         <ProfileComponent user={this.props.user}
           onLogoutClicked={this.logoutClicked}
         />
-        {user.role === 'Buyer' && <Buyer {...this.props} 
-          onLeftClicked={this.leftClicked}
-          onRightClicked={this.rightClicked}
+        {products && products.length > 0 &&
+          <div>
+            <div>
+              <h2>Products</h2>
+            </div>
+            <div
+            style = { {
+              width: 500,
+              margin: '0 auto',
+            } }
+            >
+              <Pagination
+                total = { this.state.totalPages }
+                current = { this.state.currentPageNo }
+                display = { this.state.displayPages }
+                onChange = { currentPageNo => this.setState({ currentPageNo }, () => { this.displayPage(currentPageNo) } )}
+              />
+            </div>
+          </div>
+        }
+        {user.role === 'Buyer' && <Buyer {...this.props}
         />}
         {user.role === 'Seller' && <Seller {...this.props}
-          onLeftClicked={this.leftClicked}
-          onRightClicked={this.rightClicked}
           onShowProducts={this.showProductsByRole}
         />}
       </div>

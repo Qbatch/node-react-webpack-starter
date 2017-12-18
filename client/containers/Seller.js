@@ -47,8 +47,6 @@ export default class Seller extends React.Component {
     return (
       <SellerComponent
         products={this.props.products}
-        onLeftClicked={this.props.onLeftClicked}
-        onRightClicked={this.props.onRightClicked}
         onAddProductClicked={this.addProduct}
         onEditProductClicked={this.editProduct}
         onDeleteProductClicked={this.deleteProduct}

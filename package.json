@@ -48,6 +48,8 @@
     "html-webpack-plugin": "^2.30.1",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.1.0",
+    "material-ui": "^0.20.0",
+    "material-ui-pagination": "^1.1.6",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-local": "^1.0.0",

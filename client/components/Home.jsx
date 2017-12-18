@@ -1,17 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import RaisedButton from 'material-ui/RaisedButton';
 
-const Layout = () => {
-  return (
-    <div>
+export default class Home extends React.PureComponent {
+  render() {
+    return (
       <div>
-        <Link to='/login'>Sign In</Link>
+        <div>
+          <h1>Welcome</h1>
+        </div>
+        <div>
+          <RaisedButton label="SignIn" onClick={this.props.onSignInClicked} />
+        </div>
+        <div>
+          <RaisedButton label="SignUp" onClick={this.props.onSignUpClicked} />
+        </div>
       </div>
-      <div>
-        <Link to={'/signup'}>Sign Up</Link>
-      </div>
-    </div>
-  );
+    );
+  }
+}
+
+Home.propTypes = {
+  onSignInClicked: PropTypes.func.isRequired,
+  onSignUpClicked: PropTypes.func.isRequired
 };
-
-export default Layout;

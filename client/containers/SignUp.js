@@ -9,12 +9,12 @@ import { signUpAction } from '../actions/userActions';
 class SignUp extends React.Component {
 
   state = {
-    name: 'ABCD',
-    age: '21',
-    username: 'ABC-XYZ',
-    email: 'abc.xyz@gmail.com',
-    password: '12345678',
-    role: 'Seller',
+    name: 'Name',
+    age: 'Age',
+    username: 'User Name',
+    email: 'Email',
+    password: 'Password',
+    role: 'Role',
     validation: {
       error: ''
     }
@@ -46,7 +46,7 @@ class SignUp extends React.Component {
   }
 
   roleChanged = (e) => {
-    const role = e.value;
+    const role = e;
     this.setState ({role: role});
   }
 
@@ -64,7 +64,7 @@ class SignUp extends React.Component {
     
     if(user) {
       if(user.fetched && user.success) {
-        this.props.history.push('/login');
+        this.props.history.push('/sigin');
       } else if(!user.fetched && user.error != null) {
         // console.log('Error');
 

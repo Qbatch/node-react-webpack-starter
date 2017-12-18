@@ -4,7 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = {
-  entry: ['react-hot-loader/patch', 'webpack-hot-middleware/client?reload=true&timeout=2000&noInfo=true', './client/index.js'],
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client?reload=true&timeout=2000&noInfo=true',
+    './client/index.js'
+  ],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',

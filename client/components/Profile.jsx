@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export default class Profile extends React.PureComponent {
   render() {
@@ -19,7 +20,7 @@ export default class Profile extends React.PureComponent {
             <h2>Role: {user.role}</h2>
           </div>
           <div>
-            <button onClick={onLogoutClicked}>Logout</button>
+            <RaisedButton label="Logout" primary={true} onClick={() => onLogoutClicked()} />
           </div>
         </div>
       </div>

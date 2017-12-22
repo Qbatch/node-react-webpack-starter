@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
 
 export default function SignIn(props) {
   return (
@@ -8,27 +10,36 @@ export default function SignIn(props) {
         Sign In
       </h1>
       <div>
-        <input value={props.email} onChange={props.onEmailValueChanged} />
+        <TextField
+          id="email"
+          defaultValue={props.email}
+          helperText="abc@xyz.com"
+          margin="normal"
+          onChange={props.onEmailValueChanged}
+        />
         <h3>{props.validation.emailError}</h3>
-      </div>
-      <div>
-        <input value={props.password} onChange={props.onPasswordValueChanged} />
+        <br />
+        <TextField
+          id="password"
+          defaultValue={props.password}
+          helperText="Alpha-Numeric"
+          margin="normal"
+          onChange={props.onPasswordValueChanged}
+        />
         <h3>{props.validation.passwordError}</h3>
-      </div>
-      <div>
+        <br />
         <h3>{props.validation.error}</h3>
-      </div>
-      <div>
-        <button onClick={props.onLoginClicked}>Login</button>
+        <br />
+        <Button raised onClick={props.onLoginClicked} >Login</Button>
       </div>
     </div>
   );
 }
 
 SignIn.propTypes = {
-  email: PropTypes.string,
-  password: PropTypes.string,
-  validation: PropTypes.object,
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  validation: PropTypes.object.isRequired,
   onEmailValueChanged: PropTypes.func.isRequired,
   onPasswordValueChanged: PropTypes.func.isRequired,
   onLoginClicked: PropTypes.func.isRequired

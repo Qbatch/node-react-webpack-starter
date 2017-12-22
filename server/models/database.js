@@ -142,17 +142,18 @@ User.sync({ force: true }).then(() => {
 
   // createUser('ABC Seller2', 23, 'ShahG', '12345678', 'abcs2.xyz@gmail.com', 'Seller');
   // createUser('ABC Seller1', 24, 'Ibi@Zahoor', '12345678', 'abcs1.xyz@gmail.com', 'Seller');
-  createUser('ABC Buyer1', 23, 'ShahG', '12345678', 'abcb1.xyz@gmail.com', 'Buyer');
+  createUser('ABC Seller', 23, 'ShahG', '12345678', 'abcs1.xyz@gmail.com', 'Seller');
+  // createUser('ABC Buyer', 23, 'ShahG', '12345678', 'abcb1.xyz@gmail.com', 'Buyer');
 
-  createProduct('ABC', 'ORANGE', '40', 'Dummy Description', '400', 2);
-  createProduct('DEF', 'RED', '10', 'Dummy Description', '100', 2);
-  createProduct('GHI', 'GREEN', '20', 'Dummy Description', '200', 2);
-  createProduct('JKL', 'BLUE', '30', 'Dummy Description', '300', 2);
-  createProduct('MNO', 'ORANGE', '40', 'Dummy Description', '400', 2);
-  createProduct('PQR', 'BLACK', '50', 'Dummy Description', '500', 2);
-  createProduct('STU', 'RED', '10', 'Dummy Description', '100', 2);
-  createProduct('VWX', 'GREEN', '20', 'Dummy Description', '200', 2);
-  createProduct('YZ', 'BLUE', '30', 'Dummy Description', '300', 2);
+  createProduct('ABC', 'ORANGE', '40', 'Dummy Description', '400', 1);
+  createProduct('DEF', 'RED', '10', 'Dummy Description', '100', 1);
+  createProduct('GHI', 'GREEN', '20', 'Dummy Description', '200', 1);
+  createProduct('JKL', 'BLUE', '30', 'Dummy Description', '300', 1);
+  createProduct('MNO', 'ORANGE', '40', 'Dummy Description', '400', 1);
+  createProduct('PQR', 'BLACK', '50', 'Dummy Description', '500', 1);
+  createProduct('STU', 'RED', '10', 'Dummy Description', '100', 1);
+  createProduct('VWX', 'GREEN', '20', 'Dummy Description', '200', 1);
+  createProduct('YZ', 'BLUE', '30', 'Dummy Description', '300', 1);
   createProduct('ABC2', 'ORANGE', '40', 'Dummy Description', '400', 2);
   createProduct('DEF2', 'RED', '10', 'Dummy Description', '100', 2);
   createProduct('GHI2', 'GREEN', '20', 'Dummy Description', '200', 2);
@@ -162,6 +163,15 @@ User.sync({ force: true }).then(() => {
   createProduct('STU2', 'RED', '10', 'Dummy Description', '100', 2);
   createProduct('VWX2', 'GREEN', '20', 'Dummy Description', '200', 2);
   createProduct('YZ2', 'BLUE', '30', 'Dummy Description', '300', 2);
+  createProduct('ABC', 'ORANGE', '40', 'Dummy Description', '400', 1);
+  createProduct('DEF', 'RED', '10', 'Dummy Description', '100', 1);
+  createProduct('GHI', 'GREEN', '20', 'Dummy Description', '200', 1);
+  createProduct('JKL', 'BLUE', '30', 'Dummy Description', '300', 1);
+  createProduct('MNO', 'ORANGE', '40', 'Dummy Description', '400', 1);
+  createProduct('PQR', 'BLACK', '50', 'Dummy Description', '500', 1);
+  createProduct('STU', 'RED', '10', 'Dummy Description', '100', 1);
+  createProduct('VWX', 'GREEN', '20', 'Dummy Description', '200', 1);
+  createProduct('YZ', 'BLUE', '30', 'Dummy Description', '300', 1);
 });
 
 // force: true will drop the table if it already exists

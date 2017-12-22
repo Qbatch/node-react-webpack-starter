@@ -1,104 +1,118 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import {List, ListItem, makeSelectable} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
+import Button from 'material-ui/Button';
+import Menu, { MenuItem } from 'material-ui/Menu';
 
-let SelectableList = makeSelectable(List);
-
-function wrapState(ComposedComponent) {
-  return class SelectableList extends Component {
-    static propTypes = {
-      children: PropTypes.node.isRequired,
-      defaultValue: PropTypes.number.isRequired,
-    };
-
-    componentWillMount() {
-      this.setState({
-        selectedIndex: this.props.defaultValue,
-      });
-    }
-
-    handleRequestChange = (event, index) => {
-      this.setState({
-        selectedIndex: index,
-      });
-    };
-
-    render() {
-      return (
-        <ComposedComponent
-          value={this.state.selectedIndex}
-          onChange={this.handleRequestChange}
-        >
-          {this.props.children}
-        </ComposedComponent>
-      );
-    }
+export default class SignUp extends React.Component {
+  state = {
+    anchorEl: null,
+    open: false,
   };
-}
 
-SelectableList = wrapState(SelectableList);
+  handleClick = event => {
+    this.setState({ open: true, anchorEl: event.currentTarget });
+  };
 
-export default function SignUp(props) {
-  return (
-    <div>
-      <h1>
-        Sign Up
-      </h1>
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleRole = (role) => {
+    this.props.onRoleChanged(role);
+
+    this.handleClose();
+  }
+
+  render() {
+    return (
       <div>
-        <TextField id="name-text-field" value={props.name} onChange={props.onNameValueChanged} />
-      </div>
-      <div>
-        <TextField id="age-text-field" value={props.age} onChange={props.onAgeValueChanged} />
-      </div>
-      <div>
-        <TextField id="username-text-field" value={props.username} onChange={props.onUsernameValueChanged} />
-      </div>
-      <div>
-        <TextField id="email-text-field" value={props.email} onChange={props.onEmailValueChanged} />
-      </div>
-      <div>
-        <TextField id="password-text-field" value={props.password} onChange={props.onPasswordValueChanged} />
-      </div>
-      <div>
-        <SelectableList defaultValue={1}>
-          <ListItem
-            value={1}
-            primaryText="Role"
-            nestedItems={[
-              <ListItem
-                value={2}
-                primaryText="Seller"
-                onClick={() => props.onRoleChanged('Seller')}
-              />,
-              <ListItem
-                value={3}
-                primaryText="Buyer"
-                onClick={() => props.onRoleChanged('Buyer')}
-              />
-            ]}
+        <h1>
+          Sign Up
+        </h1>
+        <div>
+          <TextField
+            id="name"
+            defaultValue={this.props.name}
+            helperText="Alpha-Numeric"
+            margin="normal"
+            onChange={this.props.onNameValueChanged}
           />
-        </SelectableList>
+        </div>
+        <div>
+          <TextField
+            id="age"
+            defaultValue={this.props.age}
+            helperText="Numeric"
+            margin="normal"
+            onChange={this.props.onAgeValueChanged}
+          />
+        </div>
+        <div>
+          <TextField
+            id="username"
+            defaultValue={this.props.username}
+            helperText="Alpha-Numeric"
+            margin="normal"
+            onChange={this.props.onUsernameValueChanged}
+          />
+        </div>
+        <div>
+          <TextField
+            id="email"
+            defaultValue={this.props.email}
+            helperText="abc@xyz.com"
+            margin="normal"
+            onChange={this.props.onEmailValueChanged}
+          />
+        </div>
+        <div>
+          <TextField
+            id="password"
+            defaultValue={this.props.password}
+            helperText="Alpha-Numeric"
+            margin="normal"
+            onChange={this.props.onPasswordValueChanged}
+          />
+        </div>
+        <div>
+          <br/>
+          Role:
+          <Button
+            aria-owns={this.state.open ? 'simple-menu' : null}
+            aria-haspopup="true"
+            onClick={this.handleClick}
+          >
+            {this.props.role}
+          </Button>
+          <Menu
+            id="simple-menu"
+            anchorEl={this.state.anchorEl}
+            open={this.state.open}
+            onClose={this.handleClose}
+          >
+            <MenuItem onClick={() => this.handleRole('Seller')}>Seller</MenuItem>
+            <MenuItem onClick={() => this.handleRole('Buyer')}>Buyer</MenuItem>
+          </Menu>
+        </div>
+        <div>
+          <h3>{this.props.validation.error}</h3>
+        </div>
+        <div>
+          <Button raised onClick={this.props.onSignUpClicked} >SignUp</Button>
+        </div>
       </div>
-      <div>
-        <h3>{props.validation.error}</h3>
-      </div>
-      <div>
-        <RaisedButton label="SignUp" onClick={props.onSignUpClicked} />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 SignUp.propTypes = {
-  name: PropTypes.string,
-  age: PropTypes.string,
-  username: PropTypes.string,
-  email: PropTypes.string,
-  password: PropTypes.string,
-  validation: PropTypes.object,
+  name: PropTypes.string.isRequired,
+  age: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  validation: PropTypes.object.isRequired,
   onNameValueChanged: PropTypes.func.isRequired,
   onAgeValueChanged: PropTypes.func.isRequired,
   onUsernameValueChanged: PropTypes.func.isRequired,

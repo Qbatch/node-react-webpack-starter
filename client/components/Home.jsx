@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 
 export default class Home extends React.PureComponent {
   render() {
@@ -10,10 +10,8 @@ export default class Home extends React.PureComponent {
           <h1>Welcome</h1>
         </div>
         <div>
-          <RaisedButton label="SignIn" onClick={this.props.onSignInClicked} />
-        </div>
-        <div>
-          <RaisedButton label="SignUp" onClick={this.props.onSignUpClicked} />
+          <Button raised onClick={this.props.onSignInClicked} > SignIn </Button>
+          <Button raised onClick={this.props.onSignUpClicked} > SignUp </Button>
         </div>
       </div>
     );

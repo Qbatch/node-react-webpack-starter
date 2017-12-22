@@ -14,7 +14,7 @@ class SignUp extends React.Component {
     username: 'User Name',
     email: 'Email',
     password: 'Password',
-    role: 'Role',
+    role: 'Seller / Buyer',
     validation: {
       error: ''
     }
@@ -66,8 +66,6 @@ class SignUp extends React.Component {
       if(user.fetched && user.success) {
         this.props.history.push('/sigin');
       } else if(!user.fetched && user.error != null) {
-        // console.log('Error');
-
         const val = this.state.validation;
         val.error = user.error.response.data.message;
 
@@ -94,8 +92,7 @@ class SignUp extends React.Component {
 
 export default connect(
   state => ({
-    user: state.user//,
-    // router: state.router
+    user: state.user
   })
 )(SignUp)
 

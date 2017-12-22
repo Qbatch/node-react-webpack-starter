@@ -12,8 +12,8 @@ import Auth from '../modules/Auth';
 class SignIn extends React.Component {
   
   state = {
-    email: 'abc.xyz@gmail.com',
-    password: "12345678",
+    email: 'Email',
+    password: "Password",
     validation: {
       emailError: '',
       passwordError: '',
@@ -117,7 +117,6 @@ class SignIn extends React.Component {
 
 export default connect(
   state => ({ 
-    user: state.user//,
-    // router: state.router 
+    user: state.user
   })
 )(SignIn)

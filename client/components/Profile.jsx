@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 
 export default class Profile extends React.PureComponent {
   render() {
@@ -20,7 +20,7 @@ export default class Profile extends React.PureComponent {
             <h2>Role: {user.role}</h2>
           </div>
           <div>
-            <RaisedButton label="Logout" primary={true} onClick={() => onLogoutClicked()} />
+            <Button raised onClick={() => onLogoutClicked()} >Logout</Button>
           </div>
         </div>
       </div>
@@ -29,6 +29,6 @@ export default class Profile extends React.PureComponent {
 }
 
 Profile.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.object.isRequired,
   onLogoutClicked: PropTypes.func.isRequired
 };

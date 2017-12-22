@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Pagination from 'material-ui-pagination';
+// import Pagination from 'material-ui-pagination';
+import Pagination from "./Pagination";
 
 import ProfileComponent from '../components/Profile.jsx';
 import Buyer from './Buyer';
@@ -20,7 +21,8 @@ class Profile extends React.Component {
     displayPages: 7,
     currentPageNo: 1,
     productsChunk: 5,
-    productsSkip: 0
+    productsSkip: 0,
+    activePage: 15
   };
 
   componentWillMount() {
@@ -68,6 +70,11 @@ class Profile extends React.Component {
     } else if (this.props.user.role == 'Buyer') {
       this.props.dispatch(fetchProducts(this.state.productsSkip, this.state.productsChunk));
     }
+  }
+
+  handlePageChange(pageNumber) {
+    console.log(`active page is ${pageNumber}`);
+    this.setState({activePage: pageNumber});
   }
 
   setTotal(event, totalPages) {

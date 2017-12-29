@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { GridList, GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Paper from 'material-ui/Paper';
 import Card, { CardActions, CardHeader, CardContent } from 'material-ui/Card';
 import ExpansionPanel, { ExpansionPanelSummary, ExpansionPanelDetails } from 'material-ui/ExpansionPanel';
@@ -20,7 +21,8 @@ export default class Seller extends React.PureComponent {
     return (
       <div>
         <div>
-          <Paper elevation={5}>
+          <GridList cols={2.5}>
+          {/* <Paper elevation={5}> */}
             {products && products.map(item => (
               <Card key={item.id}>
                 <ExpansionPanel>
@@ -47,7 +49,8 @@ export default class Seller extends React.PureComponent {
                 </ExpansionPanel>
               </Card>
             ))}
-          </Paper>
+          {/* </Paper> */}
+          </GridList>
         </div>
         <div>
           <Button raised onClick={() => onAddProductClicked()} >Add</Button>

@@ -26,13 +26,13 @@ class Profile extends React.Component {
   };
 
   componentWillMount() {
-    console.log('Profile componentWillMount() ', this.props);
+    // console.log('Profile componentWillMount() ', this.props);
 
     this.props.dispatch(fetchUserAction(this.props.match.params.id));
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps() ', nextProps);
+    // console.log('componentWillReceiveProps() ', nextProps);
 
     const {user, productsLength, products} = nextProps;
 
@@ -52,7 +52,7 @@ class Profile extends React.Component {
           if(products === this.props.products) {
             this.setState({
               totalPages: parseInt((productsLength / this.state.productsChunk) + 1, 10)},
-              () => { console.log(this.state); this.showProductsByRole(); }
+              () => { this.showProductsByRole(); }
             );
           }
         }
@@ -73,7 +73,7 @@ class Profile extends React.Component {
   }
 
   handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
+    // console.log(`active page is ${pageNumber}`);
     this.setState({activePage: pageNumber});
   }
 
@@ -110,7 +110,7 @@ class Profile extends React.Component {
   }
 
   displayPage = (pageNo) => {
-    console.log('pageNo = ', pageNo);
+    // console.log('pageNo = ', pageNo);
 
     this.setState({
       productsSkip: (pageNo - 1) * this.state.productsChunk

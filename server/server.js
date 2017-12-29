@@ -1,21 +1,81 @@
 import express from 'express';
-import webpack from 'webpack';
-import passport from 'passport';
-import path from 'path';
+// import webpack from 'webpack';
+// import passport from 'passport';
+// import path from 'path';
 import bodyParser from 'body-parser';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 
-import config from '../webpack.config.babel';
+import { execute, subscribe } from 'graphql';
+import { createServer } from 'http';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 
-import localSignupStrategy from './passport/local-signup';
-import localLoginStrategy from './passport/local-login';
-import authRoutes from './routes/auth';
-import apiRoutes from './routes/api';
+// import webpackDevMiddleware from 'webpack-dev-middleware';
+// import webpackHotMiddleware from 'webpack-hot-middleware';
 
+// import config from '../webpack.config.babel';
+import { authenticate } from './authentication';
+import schema from './schema';
+import formatError from './formatError';
+
+// import localSignupStrategy from './passport/local-signup';
+// import localLoginStrategy from './passport/local-login';
+// import authRoutes from './routes/auth';
+// import apiRoutes from './routes/api';
+/*
 const compiler = webpack(config);
 const app = express();
 
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql'
+}));
+*/
+// 1
+import connectMongo from './mongo-connector';
+import buildDataloaders from './dataloaders';
+
+const PORT = 3000;
+// 2
+const start = async () => {
+  // 3
+  const mongo = await connectMongo();
+  const app = express();
+  const buildOptions = async (req, res) => {
+    const user = await authenticate(req, mongo.Users);
+    return {
+      context: {
+        dataloaders: buildDataloaders(mongo),
+        mongo,
+        user
+      }, // This context object is passed to all resolvers.
+      formatError,
+      schema
+    };
+  };
+  app.use('/graphql', bodyParser.json(), graphqlExpress(buildOptions));
+  app.use('/graphiql', graphiqlExpress({
+    endpointURL: '/graphql',
+    passHeader: `'Authorization': 'bearer token-abc@xyz.com'`,
+    subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
+  }));
+
+  const server = createServer(app);
+  server.listen(PORT, () => {
+    SubscriptionServer.create(
+      { execute, subscribe, schema },
+      { server, path: '/subscriptions' }
+    );
+    console.log(`Hackernews GraphQL server running on port ${PORT}.`)
+  });
+  // app.listen(PORT, () => {
+  //   console.log(`Hackernews GraphQL server running on port ${PORT}.`);
+  // });
+};
+
+// 5
+start();
+/*
 // tell the app to parse HTTP body messages
 app.use(bodyParser.urlencoded({ extended: false }));
 // pass the passport middleware
@@ -72,4 +132,4 @@ app.get('*', (req, res, next) => {
 // Serve the files on port 3000.
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!\n');
-});
+}); */

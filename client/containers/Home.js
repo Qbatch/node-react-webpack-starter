@@ -1,6 +1,7 @@
 import React from 'react';
 
 import HomeComponent from '../components/Home.jsx';
+import LinkList from './LinkList';
 
 export default class Home extends React.Component {
   signInClicked = () => {
@@ -13,9 +14,12 @@ export default class Home extends React.Component {
 
   render () {
     return (
-      <HomeComponent onSignInClicked={this.signInClicked}
-        onSignUpClicked={this.signUpClicked}
-      />
+      <div>
+        <HomeComponent onSignInClicked={this.signInClicked}
+          onSignUpClicked={this.signUpClicked}
+        />
+        <LinkList />
+      </div>
     );
   }
 };

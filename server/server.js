@@ -1,7 +1,7 @@
 import express from 'express';
-// import webpack from 'webpack';
+import webpack from 'webpack';
 // import passport from 'passport';
-// import path from 'path';
+import path from 'path';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 
@@ -9,10 +9,10 @@ import { execute, subscribe } from 'graphql';
 import { createServer } from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 
-// import webpackDevMiddleware from 'webpack-dev-middleware';
-// import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
-// import config from '../webpack.config.babel';
+import config from '../webpack.config.babel';
 import { authenticate } from './authentication';
 import schema from './schema';
 import formatError from './formatError';
@@ -41,6 +41,9 @@ const start = async () => {
   // 3
   const mongo = await connectMongo();
   const app = express();
+  const compiler = webpack(config);
+  const DIST_DIR = path.join('/Users/qbatch/Desktop/node-react-webpack-starter', 'build'); // __dirname
+
   const buildOptions = async (req, res) => {
     const user = await authenticate(req, mongo.Users);
     return {
@@ -59,6 +62,35 @@ const start = async () => {
     passHeader: `'Authorization': 'bearer token-abc@xyz.com'`,
     subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
   }));
+
+  app.use(webpackDevMiddleware(compiler, {
+    historyApiFallback: true,
+    contentBase: 'http://localhost:3000/',
+    quiet: true,
+    noInfo: true,
+    hot: true,
+    inline: true,
+    lazy: false,
+    publicPath: config.output.publicPath,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    stats: { colors: true }
+  }));
+
+  app.use(webpackHotMiddleware(compiler));
+
+  app.get('*', (req, res, next) => {
+    const filename = path.join(DIST_DIR, 'index.html');
+
+    compiler.outputFileSystem.readFile(filename, (err, result) => {
+      if (err) {
+        return next(err);
+      }
+
+      res.set('content-type', 'text/html');
+      res.send(result);
+      res.end();
+    });
+  });
 
   const server = createServer(app);
   server.listen(PORT, () => {

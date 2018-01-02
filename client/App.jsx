@@ -48,7 +48,6 @@ const App = () => {
               <Route exact path="/edit_product/:id/:pid" component={EditProduct} />
               <Route exact path="/displayCart/:id" component={DisplayCart} />
               <Route exact path="/payment/:id" component={Payment} />
-              {/* <Route path="*" component={NotFound} /> */}
             </div>
           </ConnectedRouter>
         </Provider>

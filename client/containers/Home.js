@@ -2,6 +2,7 @@ import React from 'react';
 
 import HomeComponent from '../components/Home.jsx';
 import LinkList from './LinkList';
+import CreateLink from './CreateLink';
 
 export default class Home extends React.Component {
   signInClicked = () => {
@@ -19,6 +20,7 @@ export default class Home extends React.Component {
           onSignUpClicked={this.signUpClicked}
         />
         <LinkList />
+        <CreateLink />
       </div>
     );
   }

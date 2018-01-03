@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
@@ -10,7 +11,10 @@ import App from './App.jsx';
 import './styles/style.scss';
 import registerServiceWorker from './registerServiceWorker';
 
-const httpLink = new HttpLink({ uri: 'https://api.graph.cool/simple/v1/cjbw6bp6m1a0r0191pdt19g2g' });//'https://api.graph.cool/simple/v1/cjbxccogf0tis0189ry07ob0v' });
+const httpLink = new HttpLink({
+  uri: 'https://api.graph.cool/simple/v1/cjbw6bp6m1a0r0191pdt19g2g'
+  // uri: 'http://localhost:3000/graphiql'
+});
 
 const client = new ApolloClient({
   link: httpLink,
@@ -22,9 +26,11 @@ if (module.hot) {
 }
 
 ReactDOM.render(
+  // <BrowserRouter>
   <ApolloProvider client={client}>
     <App />
   </ApolloProvider>
+  // </BrowserRouter>
   , document.getElementById('app')
 );
 registerServiceWorker();

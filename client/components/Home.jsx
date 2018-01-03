@@ -9,10 +9,10 @@ export default class Home extends React.PureComponent {
         <div>
           <h1>Welcome</h1>
         </div>
-        <div>
+        {/* <div>
           <Button raised onClick={this.props.onSignInClicked} > SignIn </Button>
           <Button raised onClick={this.props.onSignUpClicked} > SignUp </Button>
-        </div>
+        </div> */}
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Provider } from 'react-redux';
+// import { Switch, Route } from 'react-router-dom';
 import { Route } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import { AppContainer } from 'react-hot-loader';
@@ -14,7 +15,7 @@ import SignUp from './containers/SignUp';
 import SignIn from './containers/SignIn';
 import Profile from './containers/Profile';
 import LogOut from './containers/LogOut';
-
+import Login from './containers/Login';
 // import NotFound from './components/NotFound.jsx';
 
 import AddProduct from './containers/AddProduct';
@@ -39,6 +40,7 @@ const App = () => {
           <ConnectedRouter history={history}>
             <div>
               <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/sigin" component={SignIn} />
               <Route exact path="/profile/:id" component={Profile} />

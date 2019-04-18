@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
-    "start": "nodemon server.js --exec babel-node",
+    "start": "nodemon server/server.js --exec babel-node",
     "start_previous": "babel-node server.js",
     "server": "babel-node server.js",
     "build": "npm run clean && webpack",

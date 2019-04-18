@@ -31,9 +31,6 @@ passport.use('local-login', localLoginStrategy);
 const authCheckMiddleware = require('./middleware/auth-check');
 
 app.use('/api', authCheckMiddleware);
-
-console.log('\n\nHi,\nIm\nServer\n\n');
-
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 
